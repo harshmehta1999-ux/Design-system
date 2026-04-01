@@ -1,0 +1,272 @@
+/*
+ * Button.css
+ * All token values confirmed from Figma DSM (node 181:73) via get_design_context
+ * and get_variable_defs on 2026-04-02.
+ * ─────────────────────────────────────────────────────────────────────────────
+ * CONFIRMED FROM FIGMA (get_variable_defs + get_design_context):
+ *   --radius             12px          (Figma variable: Radius = 12)
+ *   --primary-main       #1e1f1f       (Figma variable: Primary/Main)
+ *   --text-contrast      #ffffff       (Figma variable: Text/Primary Contrast)
+ *   --text-disabled      rgba(0,0,0,0.38)  (Figma variable: Text/Disabled = #00000061)
+ *   --disabled-bg        rgba(0,0,0,0.12)  (Figma variable: Action/disabledBackground = #0000001f)
+ *   Horizontal padding   12px          (Figma: px-[12px] uniform across all sizes)
+ *   Icon↔label gap       2px           (Figma: gap-[2px] on inner content wrapper)
+ *   Font family          Proxima Nova  (Figma typography token: Button)
+ *   Font weight          400 Regular   (Figma typography token: Button, style: Regular)
+ *   Font size            14px          (Figma typography token: Button, size: 14)
+ *   Line height          24px          (Figma typography token: Button, lineHeight: 24)
+ *   Letter spacing       1.25px        (Figma typography token: Button, letterSpacing: 1.25)
+ *   Icon size            20×20px       (Figma: size-[20px] on icon wrapper)
+ *   Min-width            64px          (Figma: min-w-[64px] on button root)
+ *   Heights              xs 28 · sm 30 · md 36 · lg 42px (Figma column labels)
+ *
+ * STILL ESTIMATED — not present in this Figma node (flag for designer):
+ *   Focus ring color     #0c66e4       (no button-specific focus token found)
+ *   Hover overlay        rgba(0,0,0,0.08) on primary  (Figma hover row looks darker —
+ *                                      exact value not exposed as a variable)
+ *   Secondary/Ghost variants (node 181:73 is Contained/Primary only; secondary+ghost
+ *                             rows from original screenshot node 3:12 have no variable data)
+ *   Danger variant       inferred from Error/Main (#92271B) colour token
+ *   Loading spinner      functional state, no Figma design found
+ * ─────────────────────────────────────────────────────────────────────────────
+ */
+
+/* ── Design tokens ─────────────────────────────────────────────────────────── */
+
+:root {
+  /* Shape — confirmed: Figma variable Radius = 12 */
+  --btn-radius: 12px;
+
+  /* Colours — confirmed from Figma get_variable_defs */
+  --btn-color-primary:          #1e1f1f;
+  --btn-color-primary-contrast: #ffffff;
+  --btn-color-disabled-bg:      rgba(0, 0, 0, 0.12);   /* Action/disabledBackground #0000001f */
+  --btn-color-disabled-text:    rgba(0, 0, 0, 0.38);   /* Text/Disabled #00000061 */
+
+  /* Colours — confirmed from Figma DSM colour palette (Colors.stories) */
+  --btn-color-border:           rgba(30, 30, 31, 0.50); /* Button Border token */
+  --btn-color-error:            #92271B;                /* Error/Main */
+  --btn-color-error-dark:       #611B18;                /* Error/Dark */
+  --btn-color-action-hover:     rgba(0, 0, 0, 0.04);   /* Action/Hover */
+
+  /* Heights — confirmed from Figma column labels */
+  --btn-height-xs: 28px;
+  --btn-height-sm: 30px;
+  --btn-height-md: 36px;
+  --btn-height-lg: 42px;
+
+  /* Layout — confirmed from Figma get_design_context */
+  --btn-px:        12px;   /* horizontal padding — uniform across all sizes */
+  --btn-gap:       2px;    /* icon-to-label gap — uniform across all sizes */
+  --btn-min-width: 64px;   /* minimum width — confirmed from Figma */
+  --btn-icon-size: 20px;   /* icon dimensions — confirmed from Figma size-[20px] */
+
+  /* Typography — confirmed from Figma Button typography token */
+  --btn-font-family:      'Proxima Nova', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --btn-font-weight:      400;       /* Regular */
+  --btn-font-size:        14px;      /* uniform across all sizes */
+  --btn-line-height:      24px;      /* lineHeight: 24 */
+  --btn-letter-spacing:   1.25px;    /* letterSpacing: 1.25 */
+
+  /* Focus ring — ⚠️ ESTIMATED (no button-specific token in Figma) */
+  --btn-focus-outline: 2px solid #0c66e4;
+  --btn-focus-offset:  2px;
+
+  /* Motion */
+  --btn-transition: background-color 0.15s ease,
+                    border-color     0.15s ease,
+                    color            0.15s ease,
+                    box-shadow       0.15s ease;
+}
+
+/* ── Base ──────────────────────────────────────────────────────────────────── */
+
+.btn {
+  display:         inline-flex;
+  align-items:     center;
+  justify-content: center;
+  min-width:       var(--btn-min-width);
+  padding:         0 var(--btn-px);
+  border:          none;
+  border-radius:   var(--btn-radius);
+  overflow:        hidden;
+  cursor:          pointer;
+  font-family:     var(--btn-font-family);
+  font-weight:     var(--btn-font-weight);
+  font-size:       var(--btn-font-size);
+  line-height:     var(--btn-line-height);
+  letter-spacing:  var(--btn-letter-spacing);
+  white-space:     nowrap;
+  text-decoration: none;
+  user-select:     none;
+  outline:         none;
+  box-sizing:      border-box;
+  transition:      var(--btn-transition);
+  vertical-align:  middle;
+}
+
+.btn:focus-visible {
+  outline:        var(--btn-focus-outline);
+  outline-offset: var(--btn-focus-offset);
+}
+
+/* ── Inner content wrapper (matches Figma .MasterButtonText) ───────────────── */
+
+.btn__content {
+  display:     flex;
+  align-items: center;
+  height:      100%;
+  gap:         var(--btn-gap);
+  flex-shrink: 0;
+}
+
+/* ── Variants ──────────────────────────────────────────────────────────────── */
+
+/* Primary — confirmed from Figma: bg-[var(--primary/main,#1e1f1f)] */
+.btn--primary {
+  background-color: var(--btn-color-primary);
+  color:            var(--btn-color-primary-contrast);
+  border:           1px solid var(--btn-color-primary);
+}
+
+/* Hover — ⚠️ ESTIMATED: exact overlay value not in Figma variables */
+.btn--primary:not(:disabled):hover {
+  background-color: color-mix(in srgb, var(--btn-color-primary) 90%, white);
+  border-color:     color-mix(in srgb, var(--btn-color-primary) 90%, white);
+}
+
+.btn--primary:not(:disabled):active {
+  background-color: color-mix(in srgb, var(--btn-color-primary) 82%, white);
+  border-color:     color-mix(in srgb, var(--btn-color-primary) 82%, white);
+}
+
+/* Secondary (outlined) — ⚠️ variant inferred from original screenshot; no variable data */
+.btn--secondary {
+  background-color: transparent;
+  color:            var(--btn-color-primary);
+  border:           1px solid var(--btn-color-border);
+}
+
+.btn--secondary:not(:disabled):hover {
+  background-color: var(--btn-color-action-hover);
+}
+
+.btn--secondary:not(:disabled):active {
+  background-color: rgba(0, 0, 0, 0.08);
+}
+
+/* Ghost — ⚠️ variant inferred from original screenshot; no variable data */
+.btn--ghost {
+  background-color: transparent;
+  color:            var(--btn-color-primary);
+  border:           1px solid transparent;
+}
+
+.btn--ghost:not(:disabled):hover {
+  background-color: var(--btn-color-action-hover);
+}
+
+.btn--ghost:not(:disabled):active {
+  background-color: rgba(0, 0, 0, 0.08);
+}
+
+/* Danger — ⚠️ ESTIMATED: inferred from Error colour tokens; not in this Figma node */
+.btn--danger {
+  background-color: var(--btn-color-error);
+  color:            var(--btn-color-primary-contrast);
+  border:           1px solid var(--btn-color-error);
+}
+
+.btn--danger:not(:disabled):hover {
+  background-color: var(--btn-color-error-dark);
+  border-color:     var(--btn-color-error-dark);
+}
+
+.btn--danger:not(:disabled):active {
+  background-color: color-mix(in srgb, var(--btn-color-error-dark) 90%, black);
+  border-color:     color-mix(in srgb, var(--btn-color-error-dark) 90%, black);
+}
+
+/* ── Sizes — heights confirmed from Figma ──────────────────────────────────── */
+/* Padding (12px), gap (2px), font-size (14px) are uniform — confirmed from Figma */
+
+.btn--xs { height: var(--btn-height-xs); }
+.btn--sm { height: var(--btn-height-sm); }
+.btn--md { height: var(--btn-height-md); }
+.btn--lg { height: var(--btn-height-lg); }
+
+/* ── Icon slot — 20×20px confirmed from Figma size-[20px] ─────────────────── */
+
+.btn__icon {
+  display:     inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  width:       var(--btn-icon-size);
+  height:      var(--btn-icon-size);
+  overflow:    hidden;
+}
+
+.btn__icon svg,
+.btn__icon img {
+  width:  100%;
+  height: 100%;
+  display: block;
+}
+
+/* ── Icon-only ─────────────────────────────────────────────────────────────── */
+
+.btn--icon-only {
+  min-width: unset;
+  padding:   0;
+}
+
+.btn--icon-only.btn--xs { width: var(--btn-height-xs); }
+.btn--icon-only.btn--sm { width: var(--btn-height-sm); }
+.btn--icon-only.btn--md { width: var(--btn-height-md); }
+.btn--icon-only.btn--lg { width: var(--btn-height-lg); }
+
+/* ── Full width ────────────────────────────────────────────────────────────── */
+
+.btn--full-width {
+  width: 100%;
+}
+
+/* ── Disabled — confirmed: bg rgba(0,0,0,0.12) · text rgba(0,0,0,0.38) ────── */
+
+.btn:disabled,
+.btn[aria-disabled='true'] {
+  cursor:           not-allowed;
+  pointer-events:   none;
+  background-color: var(--btn-color-disabled-bg);
+  border-color:     transparent;
+  color:            var(--btn-color-disabled-text);
+}
+
+.btn--secondary:disabled,
+.btn--secondary[aria-disabled='true'] {
+  border-color: var(--btn-color-disabled-bg);
+}
+
+.btn--ghost:disabled,
+.btn--ghost[aria-disabled='true'] {
+  background-color: transparent;
+}
+
+/* ── Loading ───────────────────────────────────────────────────────────────── */
+
+.btn--loading {
+  cursor:         wait;
+  pointer-events: none;
+}
+
+.btn__spinner {
+  width:       var(--btn-icon-size);
+  height:      var(--btn-icon-size);
+  flex-shrink: 0;
+  animation:   btn-spin 0.75s linear infinite;
+}
+
+@keyframes btn-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
